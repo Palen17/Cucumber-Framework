@@ -1,4 +1,4 @@
-package stepDefinitions;
+package hooks;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -27,13 +27,12 @@ public class Hooks {
     	p=BaseClass.getProperties();
     	driver.get(p.getProperty("appURL"));
     	driver.manage().window().maximize();
-    
     			
 	}
 		
     
     @After
-    public void tearDown(Scenario scenario) {
+    public void tearDown() {
         		
        driver.quit();
        

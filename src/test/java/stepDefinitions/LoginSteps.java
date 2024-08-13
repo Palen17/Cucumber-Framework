@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import io.cucumber.java.en.When;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.MyAccountPage;
+import utilities.DataReader;
 import utilities.DataReader;
 
 public class LoginSteps {
@@ -67,7 +69,13 @@ public class LoginSteps {
     @Then("the user should be redirected to the MyAccount Page by passing email and password with excel row {string}")
     public void check_user_navigates_to_my_account_page_by_passing_email_and_password_with_excel_data(String rows)
     {
-        datamap=DataReader.data(System.getProperty("user.dir")+"\\testData\\Opencart_LoginData.xlsx", "Sheet1");
+        try {
+			datamap=DataReader.data(System.getProperty("user.dir")+"\\testData\\Opencart_LoginData.xlsx", "Sheet1");
+		} 
+        catch (IOException e) 
+        {
+			e.printStackTrace();
+		}
 
         int index=Integer.parseInt(rows)-1;
         String email= datamap.get(index).get("username");
@@ -84,7 +92,7 @@ public class LoginSteps {
         {
             boolean targetpage=macc.isMyAccountPageExists();
             System.out.println("target page: "+ targetpage);
-            if(exp_res.equals("Valid"))
+            if(exp_res.equalsIgnoreCase("Valid"))
             {
                 if(targetpage==true)
                 {
@@ -98,7 +106,7 @@ public class LoginSteps {
                 }
             }
 
-            if(exp_res.equals("Invalid"))
+            if(exp_res.equalsIgnoreCase("Invalid"))
             {
                 if(targetpage==true)
                 {

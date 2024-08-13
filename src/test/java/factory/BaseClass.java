@@ -13,6 +13,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -24,42 +25,62 @@ public class BaseClass {
 	  	     
 	public static WebDriver initilizeBrowser() throws IOException
 	{
-		if(getProperties().getProperty("execution_env").equalsIgnoreCase("remote"))
+		p = getProperties();
+        String executionEnv = p.getProperty("execution_env");
+        String browser = p.getProperty("browser").toLowerCase();
+        String os = p.getProperty("os").toLowerCase();
+		
+		if(executionEnv.equalsIgnoreCase("remote"))
 		{
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			
 			//os
-			if (getProperties().getProperty("os").equalsIgnoreCase("windows")) {
-			    capabilities.setPlatform(Platform.WIN11);
-			} else if (getProperties().getProperty("os").equalsIgnoreCase("mac")) {
-			    capabilities.setPlatform(Platform.MAC);
-			} else {
-			    System.out.println("No matching OS..");
-			      }
+			 switch (os) {
+             case "windows":
+                 capabilities.setPlatform(Platform.WINDOWS);
+                 break;
+             case "mac":
+                 capabilities.setPlatform(Platform.MAC);
+                 break;
+             case "linux":
+                 capabilities.setPlatform(Platform.LINUX);
+                 break;
+             default:
+                 System.out.println("No matching OS");
+                 return null;
+            }
+			
 			//browser
-			switch (getProperties().getProperty("browser").toLowerCase()) {
-			    case "chrome":
-			        capabilities.setBrowserName("chrome");
-			        break;
-			    case "edge":
-			        capabilities.setBrowserName("MicrosoftEdge");
-			        break;
-			    default:
-			        System.out.println("No matching browser");
-			     }
+			 switch (browser) {
+             case "chrome":
+                 capabilities.setBrowserName("chrome");
+                 break;
+             case "edge":
+                 capabilities.setBrowserName("MicrosoftEdge");
+                 break;
+             case "firefox":
+                 capabilities.setBrowserName("firefox");
+                 break;
+             default:
+                 System.out.println("No matching browser");
+                 return null;
+             }
 	       
 	        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),capabilities);
 			
 		}
-		else if(getProperties().getProperty("execution_env").equalsIgnoreCase("local"))
+		else if(executionEnv.equalsIgnoreCase("local"))
 			{
-				switch(getProperties().getProperty("browser").toLowerCase()) 
+				switch(browser.toLowerCase()) 
 				{
 				case "chrome":
 			        driver=new ChromeDriver();
 			        break;
 			    case "edge":
 			    	driver=new EdgeDriver();
+			        break;
+			    case "firefox":
+			    	driver=new FirefoxDriver();
 			        break;
 			    default:
 			        System.out.println("No matching browser");
@@ -81,8 +102,7 @@ public class BaseClass {
 	public static Properties getProperties() throws IOException
 	{		 
         FileReader file=new FileReader(System.getProperty("user.dir")+"\\src\\test\\resources\\config.properties");
-       		
-        p=new Properties();
+       	p=new Properties();
 		p.load(file);
 		return p;
 	}

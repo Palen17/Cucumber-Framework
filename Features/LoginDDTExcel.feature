@@ -9,3 +9,5 @@ Feature: Login Data Driven with Excel
       |         1 |
       |         2 |
       |         3 |
+      |         4 |
+      |         5 |

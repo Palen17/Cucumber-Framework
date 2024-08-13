@@ -1,6 +1,6 @@
 Feature: Account Registration
 
-@regression
+  @regression
   Scenario: Successful Account Registration
     Given the user navigates to Register Account page
     When the user enters the details into below fields

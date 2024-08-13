@@ -1,4 +1,5 @@
-utilities\DataReader$1.class
+stepDefinitions\LoginSteps.class
+stepDefinitions\RegistrationSteps.class
 pageObjects\HomePage.class
 pageObjects\CheckoutPage.class
 pageObjects\MyAccountPage.class
@@ -8,4 +9,5 @@ pageObjects\ShoppingCartPage.class
 pageObjects\BasePage.class
 testRunner\TestRunner.class
 pageObjects\SearchPage.class
+factory\BaseClass.class
 utilities\DataReader.class
